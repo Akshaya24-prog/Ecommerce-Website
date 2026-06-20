@@ -25,7 +25,14 @@ function getAuthData() {
     const tabRaw = sessionStorage.getItem(_TAB_AUTH_KEY);
     if (tabRaw) return JSON.parse(tabRaw);
     const raw = localStorage.getItem(AUTH_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (raw) {
+      // Snapshot into this tab's sessionStorage so that if another tab
+      // logs in as a different user (overwriting localStorage), this tab
+      // still reads its own session on refresh.
+      sessionStorage.setItem(_TAB_AUTH_KEY, raw);
+      return JSON.parse(raw);
+    }
+    return null;
   } catch (err) {
     return null;
   }
