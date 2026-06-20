@@ -102,11 +102,11 @@
   window.toggleAdminLink = toggleAdminLink;
 
   function hideOrdersLinkForAdmin() {
-    if (!isAdmin()) return;
     document.querySelectorAll("[data-nav='orders']").forEach((el) => {
-      el.hidden = true;
+      el.hidden = isAdmin();
     });
   }
+  window.hideOrdersLinkForAdmin = hideOrdersLinkForAdmin;
 
   // ----- Theme toggle -----
   const THEME_KEY = "ecom_theme";

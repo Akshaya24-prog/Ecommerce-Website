@@ -57,6 +57,7 @@
       close();
       if (window.renderNavActions) window.renderNavActions();
       if (window.toggleAdminLink) window.toggleAdminLink();
+      if (window.hideOrdersLinkForAdmin) window.hideOrdersLinkForAdmin();
       if (window.reloadProducts) window.reloadProducts();
       if (_afterLogin) { const cb = _afterLogin; _afterLogin = null; cb(); }
     } catch (err) {
