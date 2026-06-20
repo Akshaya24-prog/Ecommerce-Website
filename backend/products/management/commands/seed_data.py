@@ -61,6 +61,10 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(f"Created product: {name}")
 
+        deleted, _ = User.objects.filter(username="customer").delete()
+        if deleted:
+            self.stdout.write("Removed legacy 'customer' account.")
+
         admin, created = User.objects.get_or_create(
             username="admin",
             defaults={"email": "admin@gmail.com", "role": "admin"},
