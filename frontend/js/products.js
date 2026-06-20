@@ -167,6 +167,8 @@
     }
   });
 
+  window.reloadProducts = loadProducts;
+
   loadCategories();
   loadProducts();
 })();
