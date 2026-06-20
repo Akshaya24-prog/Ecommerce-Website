@@ -5,48 +5,25 @@
 
 const AUTH_STORAGE_KEY = "ecom_auth";
 
-// Each browser tab gets a unique ID so tabs can hold different user sessions.
-// The ID lives in sessionStorage (per-tab, cleared on close).
-const _TAB_AUTH_KEY = "ecom_auth_" + (
-  sessionStorage.getItem("_tab_id") ||
-  (sessionStorage.setItem("_tab_id", Math.random().toString(36).slice(2)),
-   sessionStorage.getItem("_tab_id"))
-);
-
 // ---------------------------------------------------------------------
-// Auth storage — per-tab sessionStorage with localStorage fallback
-//   setAuthData  → writes to this tab's sessionStorage only
-//   getAuthData  → reads tab sessionStorage; falls back to localStorage
-//                  so a freshly opened tab inherits the shared session
-//   clearAuthData → clears both so logout works everywhere
+// Auth storage — sessionStorage only (per-tab, cleared when tab closes)
+// Fresh links/tabs always start as guest; each tab holds its own session.
 // ---------------------------------------------------------------------
 function getAuthData() {
   try {
-    const tabRaw = sessionStorage.getItem(_TAB_AUTH_KEY);
-    if (tabRaw) return JSON.parse(tabRaw);
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
-    if (raw) {
-      // Snapshot into this tab's sessionStorage so that if another tab
-      // logs in as a different user (overwriting localStorage), this tab
-      // still reads its own session on refresh.
-      sessionStorage.setItem(_TAB_AUTH_KEY, raw);
-      return JSON.parse(raw);
-    }
-    return null;
+    const raw = sessionStorage.getItem(AUTH_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
   } catch (err) {
     return null;
   }
 }
 
 function setAuthData(data) {
-  const json = JSON.stringify(data);
-  sessionStorage.setItem(_TAB_AUTH_KEY, json);
-  localStorage.setItem(AUTH_STORAGE_KEY, json);
+  sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data));
 }
 
 function clearAuthData() {
-  sessionStorage.removeItem(_TAB_AUTH_KEY);
-  localStorage.removeItem(AUTH_STORAGE_KEY);
+  sessionStorage.removeItem(AUTH_STORAGE_KEY);
 }
 
 function getAccessToken() {
