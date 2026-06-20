@@ -72,24 +72,37 @@ ASGI_APPLICATION = "ecommerce.asgi.application"
 # ---------------------------------------------------------------------------
 # Database (PostgreSQL)
 # ---------------------------------------------------------------------------
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME", default="ecommerce_db"),
-        "USER": config("DB_USER", default="ecommerce_user"),
-        "PASSWORD": config("DB_PASSWORD", default="postgres"),
-        "HOST": config("DB_HOST", default="127.0.0.1"),
-        "PORT": config("DB_PORT", default="5432"),
-    }
-}
+import os, dj_database_url
 
-# Allows `python manage.py check` / tests to run against SQLite when
-# USE_SQLITE=True is set in the environment, without touching the
-# PostgreSQL configuration developers use for the real app.
-if config("USE_SQLITE", default=False, cast=bool):
-    DATABASES["default"] = {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+_DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if _DATABASE_URL:
+    # Production (Render + Neon) — use the DATABASE_URL environment variable
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=_DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
+    }
+elif config("USE_SQLITE", default=False, cast=bool):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    # Local development — use individual DB_* variables
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": config("DB_NAME", default="ecommerce_db"),
+            "USER": config("DB_USER", default="ecommerce_user"),
+            "PASSWORD": config("DB_PASSWORD", default="postgres"),
+            "HOST": config("DB_HOST", default="127.0.0.1"),
+            "PORT": config("DB_PORT", default="5432"),
+        }
     }
 
 # ---------------------------------------------------------------------------
