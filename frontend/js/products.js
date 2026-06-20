@@ -169,6 +169,12 @@
 
   window.reloadProducts = loadProducts;
 
+  if (typeof BroadcastChannel !== "undefined") {
+    new BroadcastChannel("ecom_updates").onmessage = function (e) {
+      if (e.data.type === "product_changed") loadProducts();
+    };
+  }
+
   loadCategories();
   loadProducts();
 })();

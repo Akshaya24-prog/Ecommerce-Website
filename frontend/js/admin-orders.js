@@ -73,6 +73,7 @@
     try {
       await api.patch(`/orders/${orderId}/status/`, { status: newStatus });
       showToast(`Order #${orderId} marked ${newStatus}.`, "success");
+      broadcastEvent("order_changed");
     } catch (err) {
       showToast(err.message, "error");
       loadOrders();

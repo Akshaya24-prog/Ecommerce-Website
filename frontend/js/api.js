@@ -5,11 +5,25 @@
 
 const AUTH_STORAGE_KEY = "ecom_auth";
 
+// Each browser tab gets a unique ID so tabs can hold different user sessions.
+// The ID lives in sessionStorage (per-tab, cleared on close).
+const _TAB_AUTH_KEY = "ecom_auth_" + (
+  sessionStorage.getItem("_tab_id") ||
+  (sessionStorage.setItem("_tab_id", Math.random().toString(36).slice(2)),
+   sessionStorage.getItem("_tab_id"))
+);
+
 // ---------------------------------------------------------------------
-// Auth storage (localStorage) — { access, refresh, user }
+// Auth storage — per-tab sessionStorage with localStorage fallback
+//   setAuthData  → writes to this tab's sessionStorage only
+//   getAuthData  → reads tab sessionStorage; falls back to localStorage
+//                  so a freshly opened tab inherits the shared session
+//   clearAuthData → clears both so logout works everywhere
 // ---------------------------------------------------------------------
 function getAuthData() {
   try {
+    const tabRaw = sessionStorage.getItem(_TAB_AUTH_KEY);
+    if (tabRaw) return JSON.parse(tabRaw);
     const raw = localStorage.getItem(AUTH_STORAGE_KEY);
     return raw ? JSON.parse(raw) : null;
   } catch (err) {
@@ -18,10 +32,13 @@ function getAuthData() {
 }
 
 function setAuthData(data) {
-  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data));
+  const json = JSON.stringify(data);
+  sessionStorage.setItem(_TAB_AUTH_KEY, json);
+  localStorage.setItem(AUTH_STORAGE_KEY, json);
 }
 
 function clearAuthData() {
+  sessionStorage.removeItem(_TAB_AUTH_KEY);
   localStorage.removeItem(AUTH_STORAGE_KEY);
 }
 
@@ -190,6 +207,17 @@ async function fetchAllPages(path, params) {
     nextUrl = data.next || null;
   }
   return results;
+}
+
+// ---------------------------------------------------------------------
+// Cross-tab real-time updates via BroadcastChannel
+// Admin pages call broadcastEvent() after mutating data; customer pages
+// listen and reload automatically.
+// ---------------------------------------------------------------------
+const _bc = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("ecom_updates") : null;
+
+function broadcastEvent(type) {
+  if (_bc) _bc.postMessage({ type });
 }
 
 const api = {

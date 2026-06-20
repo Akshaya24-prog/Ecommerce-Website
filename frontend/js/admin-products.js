@@ -126,6 +126,7 @@
       try {
         await api.delete(`/products/${deleteBtn.dataset.delete}/`);
         showToast("Product deleted.", "success");
+        broadcastEvent("product_changed");
         loadProducts(searchInput.value.trim());
       } catch (err) {
         showToast(err.message, "error");
@@ -159,6 +160,7 @@
         await api.post("/products/", body);
         showToast("Product created.", "success");
       }
+      broadcastEvent("product_changed");
       closeModal();
       loadProducts(searchInput.value.trim());
     } catch (err) {

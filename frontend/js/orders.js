@@ -87,5 +87,11 @@
     }
   });
 
+  if (typeof BroadcastChannel !== "undefined") {
+    new BroadcastChannel("ecom_updates").onmessage = function (e) {
+      if (e.data.type === "order_changed") loadOrders();
+    };
+  }
+
   loadOrders();
 })();
