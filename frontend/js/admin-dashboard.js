@@ -59,8 +59,7 @@
         .reduce((sum, o) => sum + Number(o.total_amount), 0);
       statRevenue.textContent = formatPrice(revenue);
 
-      const sorted = orders.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      renderRecentOrders(sorted);
+      renderRecentOrders(orders);
     } catch (err) {
       showToast(err.message, "error");
     }

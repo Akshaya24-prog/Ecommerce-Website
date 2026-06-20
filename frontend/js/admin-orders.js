@@ -58,8 +58,7 @@
     try {
       const params = statusFilter && statusFilter.value ? { status: statusFilter.value } : {};
       const orders = await api.getAll("/orders/", params);
-      const sorted = orders.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      renderTable(sorted);
+      renderTable(orders);
     } catch (err) {
       tableContainer.innerHTML = emptyStateHtml("Couldn't load orders", err.message);
     }
