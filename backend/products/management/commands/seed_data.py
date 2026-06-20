@@ -63,9 +63,9 @@ class Command(BaseCommand):
 
         if not User.objects.filter(username="admin").exists():
             User.objects.create_user(
-                username="admin", email="admin@gmail.com", password="admin123", role="admin"
+                username="admin", email="admin@gmail.com", password="admin@12345", role="admin"
             )
-            self.stdout.write(self.style.SUCCESS("Created admin user -> username: admin / password: admin123"))
+            self.stdout.write(self.style.SUCCESS("Created admin user -> username: admin / password: admin@12345"))
         else:
             self.stdout.write("Admin user already exists, skipping.")
 

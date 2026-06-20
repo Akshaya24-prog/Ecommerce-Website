@@ -90,8 +90,8 @@ the API are served from the same port; no second terminal is needed.
 
 | Role     | Username   | Password            |
 |----------|------------|---------------------|
-| Admin    | `admin`    | `admin123`          |
-| Customer | `Taylor`   | `taylor12345`  |
+| Admin    | `admin`    | `admin@12345`          |
+| Customer | `Taylor`   | `taylor12345`       |
 | Customer | `Aarna`    | `aarna12345`        |
 
 **Admin quick-access:** Click the small **⚙ Admin** button in the bottom-right
@@ -116,7 +116,7 @@ keeps working:
 
 ```js
 var ADMIN_USERNAME = "admin";
-var ADMIN_PASSWORD = "admin123";
+var ADMIN_PASSWORD = "admin@12345";
 ```
 
 ---
