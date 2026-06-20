@@ -88,10 +88,11 @@ the API are served from the same port; no second terminal is needed.
 
 ## 4. Credentials
 
-| Role     | Username   | Password          |
-|----------|------------|-------------------|
-| Admin    | `admin`    | `admin123`        |
-| Customer | `customer` | `CustomerPass123!`|
+| Role     | Username   | Password            |
+|----------|------------|---------------------|
+| Admin    | `admin`    | `admin123`          |
+| Customer | `Taylor`   | `taylor12345`  |
+| Customer | `Aarna`    | `aarna12345`        |
 
 **Admin quick-access:** Click the small **⚙ Admin** button in the bottom-right
 corner of the catalog page — it logs in automatically and goes straight to the

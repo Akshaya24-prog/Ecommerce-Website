@@ -63,20 +63,28 @@ class Command(BaseCommand):
 
         if not User.objects.filter(username="admin").exists():
             User.objects.create_user(
-                username="admin", email="admin@example.com", password="admin123", role="admin"
+                username="admin", email="admin@gmail.com", password="admin123", role="admin"
             )
             self.stdout.write(self.style.SUCCESS("Created admin user -> username: admin / password: admin123"))
         else:
             self.stdout.write("Admin user already exists, skipping.")
 
-        if not User.objects.filter(username="customer").exists():
+        if not User.objects.filter(username="Taylor").exists():
             User.objects.create_user(
-                username="customer", email="customer@example.com", password="CustomerPass123!", role="customer"
+                username="Taylor", email="Taylor@gmail.com", password="taylor12345", role="customer"
             )
             self.stdout.write(
-                self.style.SUCCESS("Created demo customer -> username: customer / password: CustomerPass123!")
+                self.style.SUCCESS("Created demo customer -> username: Taylor / password: CustomerPass123!")
             )
         else:
-            self.stdout.write("Demo customer already exists, skipping.")
+            self.stdout.write("Taylor already exists, skipping.")
+
+        if not User.objects.filter(username="Aarna").exists():
+            User.objects.create_user(
+                username="Aarna", email="aarna@example.com", password="aarna12345", role="customer"
+            )
+            self.stdout.write(self.style.SUCCESS("Created customer -> username: Aarna / password: aarna12345"))
+        else:
+            self.stdout.write("Aarna already exists, skipping.")
 
         self.stdout.write(self.style.SUCCESS("Seeding complete."))
