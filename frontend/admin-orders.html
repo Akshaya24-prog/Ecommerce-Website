@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Orders · Marketstand</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="admin-orders" data-requires-admin="true">
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand">Market<span class="dot">stand</span></a>
+      <nav class="main-nav">
+        <a href="index.html" data-nav="catalog">Shop</a>
+        <a href="orders.html" data-nav="orders">My Orders</a>
+        <a href="admin-dashboard.html" data-nav="admin" class="admin-link" id="adminNavLink" hidden>Admin</a>
+      </nav>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <span class="eyebrow">Admin</span>
+      <a href="admin-dashboard.html" data-nav="admin-dashboard">Dashboard</a>
+      <a href="admin-products.html" data-nav="admin-products">Products</a>
+      <a href="admin-orders.html" data-nav="admin-orders">Orders</a>
+      <a href="admin-users.html" data-nav="admin-users">Users</a>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-main-head">
+        <h1>Orders</h1>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>All Orders</h2>
+          <select class="sort-select" id="statusFilter">
+            <option value="">All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div id="ordersTableContainer">
+          <div class="loading-row">Loading orders…</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-stack"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/admin-orders.js"></script>
+</body>
+</html>
