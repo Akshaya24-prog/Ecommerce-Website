@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # App database config — change these or set them in .env before running
 DB_NAME = "ecommerce_db"
 DB_USER = "ecommerce_user"
-DB_PASSWORD = "ecommerce_pass123"
+DB_PASSWORD = "post007"
 DB_HOST = "127.0.0.1"
 DB_PORT = "5432"
 ADMIN_USER = "postgres"  # PostgreSQL superuser
